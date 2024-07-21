@@ -1,0 +1,5 @@
+[workspace]
+members = [
+    "shell",
+    # Future projects will go here
+]
