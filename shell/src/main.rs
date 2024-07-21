@@ -1,10 +1,19 @@
+use std::env;
 use std::io::{self, Write};
+use std::path::PathBuf;
+use dirs::home_dir;
 
 mod commands;
 
 fn main() {
+    // shell should start in the home dir
+    let mut current_dir = home_dir()
+        .unwrap_or_else(|| PathBuf::from("/"));
+    env::set_current_dir(&current_dir)
+        .expect("Failed to set initial dir to home!");
+
     loop {
-        print!("> ");
+        print!("{}> ", current_dir.display());
         io::stdout()
             .flush()
             .expect("Failed to flush stdout");
@@ -30,6 +39,11 @@ fn main() {
 
         // Match cmd, call requested func
         match command {
+            "cd" => {
+                if let Err(e) = commands::cd(&args, &mut current_dir) {
+                    eprintln!("Error: {}", e);
+                }
+            },
             "echo" => commands::echo(&args),
             "ls" => {
                 if let Err(e) = commands::ls(&args) {
