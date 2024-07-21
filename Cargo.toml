@@ -3,3 +3,5 @@ members = [
     "shell",
     # Future projects will go here
 ]
+
+resolver = "2"

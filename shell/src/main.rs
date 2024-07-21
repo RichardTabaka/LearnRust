@@ -44,6 +44,11 @@ fn main() {
                     eprintln!("Error: {}", e);
                 }
             },
+            "clear" => {
+                if let Err(e) = commands::clear() {
+                    eprint!("Error: {}", e);
+                }
+            },
             "echo" => commands::echo(&args),
             "ls" => {
                 if let Err(e) = commands::ls(&args) {
