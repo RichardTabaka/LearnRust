@@ -1,5 +1,6 @@
+use rustyline::error::ReadlineError;
+use rustyline::Editor;
 use std::env;
-use std::io::{self, Write};
 use std::path::PathBuf;
 use dirs::home_dir;
 
@@ -12,51 +13,70 @@ fn main() {
     env::set_current_dir(&current_dir)
         .expect("Failed to set initial dir to home!");
 
+    // Apparenly Rust's readline doesn't like backspaces
+    let mut rl = Editor::<()>::new()
+        .expect("Failed to create RustyLine :(");
+
     loop {
-        print!("{}> ", current_dir.display());
-        io::stdout()
-            .flush()
-            .expect("Failed to flush stdout");
+        let prompt = format!("{}> ", current_dir.display());
+        let readline = rl.readline(&prompt);
 
-        let mut input = String::new();
-        io::stdin()
-            .read_line(&mut input)
-            .expect("Failed to read_line");
+        match readline {
+            Ok(line) => {
+                rl.add_history_entry(line.as_str());
 
-        if input.is_empty() {
-            continue;
-        }
+                let input = line.trim();
+                if input.is_empty() {
+                    continue;
+                }
 
-        // Split input into cmd and args
-        let parts: Vec<&str> = input
-            .split_whitespace()
-            .collect();
-        let command = parts[0];
-        let args: Vec<String> = parts[1..]
-            .iter()
-            .map(|&s| s.to_string())
-            .collect();
+                let parts: Vec<&str> = input
+                    .split_whitespace()
+                    .collect();
+                let command = parts[0];
+                let args: Vec<String> = parts[1..]
+                    .iter()
+                    .map(|&s| s.to_string())
+                    .collect();
 
-        // Match cmd, call requested func
-        match command {
-            "cd" => {
-                if let Err(e) = commands::cd(&args, &mut current_dir) {
-                    eprintln!("Error: {}", e);
+                match command {
+                    "cd" => {
+                        if let Err(e) = commands::cd(&args, &mut current_dir) {
+                            eprintln!("Error: {}", e);
+                        }
+                    },
+                    "clear" => {
+                        if let Err(e) = commands::clear() {
+                            eprint!("Error: {}", e);
+                        }
+                    },
+                    "echo" => commands::echo(&args),
+                    "find" => {
+                        if let Err(e) = commands::find(&args, &current_dir) {
+                            eprintln!("Error: {}", e);
+                        }
+                    },
+                    "ls" => {
+                        if let Err(e) = commands::ls(&args) {
+                            eprintln!("Error: {}", e);
+                        }
+                    },
+                    "exit" => break,
+                    _ => eprintln!("Unknown command: {}", command),
                 }
             },
-            "clear" => {
-                if let Err(e) = commands::clear() {
-                    eprint!("Error: {}", e);
-                }
+            Err(ReadlineError::Interrupted) => {
+                println!("CTRL-C");
+                break;
             },
-            "echo" => commands::echo(&args),
-            "ls" => {
-                if let Err(e) = commands::ls(&args) {
-                    eprintln!("Error: {}", e);
-                }
+            Err(ReadlineError::Eof) => {
+                println!("CTRL-D");
+                break;
             },
-            "exit" => break,
-            _ => eprintln!("Unknown command: {}", command),
+            Err(err) => {
+                println!("Error: {:?}", err);
+                break;
+            }
         }
     }
 }
