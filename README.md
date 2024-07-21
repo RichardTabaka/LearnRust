@@ -12,8 +12,62 @@ Here are some of the sample projects that I plan to build and include in this re
 
 - **Shell**: A simple command-line tool that will be capable of executing some of the typical commands you'd expect from a Shell.
 - **ToDo List**: A typical first project when learning a language, a ToDo list that can be added to and modified to track tasks.
-- **ACID Database**: Depending on my comfort level at this point it will likely either be a Redis clone(like the one [I completed in Go](https://github.com/RichardTabaka/RediSetGo)) or a graph database.
+- **ACID Database**: Depending on my comfort level at this point it will likely either be a Redis clone(like the [one I completed in Go](https://github.com/RichardTabaka/RediSetGo)) or a graph database.
 
 ## Repository Structure
 
 The repository is organized using a Cargo workspace, which allows multiple Rust projects to coexist within a single repository. The root `Cargo.toml` file manages the workspace configuration, and each project resides in its own directory.
+
+
+## Getting Started
+
+To get started with this repository, follow these steps:
+
+1. **Clone the repository**:
+
+    ```sh
+    git clone https://github.com/yourusername/rust-projects.git
+    cd rust-projects
+    ```
+
+2. **Build and run a project**:
+
+    ```sh
+    cargo build -p shell
+    cargo run -p shell
+    ```
+
+3. **Add a new project**:
+
+    ```sh
+    cargo new project2
+    ```
+
+    Update the `Cargo.toml` file in the root directory to include the new project:
+
+    ```toml
+    [workspace]
+    members = [
+        "shell",
+        "project2",
+        "project3",
+    ]
+    ```
+
+    Commit and push the changes:
+
+    ```sh
+    git add .
+    git commit -m "Add project2"
+    git push
+    ```
+
+## Resources
+
+- [Zero to Mastery Rust Practice Projects](https://zerotomastery.io/blog/rust-practice-projects/)
+
+## Contributing
+
+Feel free to fork this repository and contribute by submitting pull requests. Any feedback, suggestions, or improvements are welcome!
+
+Happy coding!
