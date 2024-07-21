@@ -31,6 +31,11 @@ fn main() {
         // Match cmd, call requested func
         match command {
             "echo" => commands::echo(&args),
+            "ls" => {
+                if let Err(e) = commands::ls(&args) {
+                    eprintln!("Error: {}", e);
+                }
+            },
             "exit" => break,
             _ => eprintln!("Unknown command: {}", command),
         }
