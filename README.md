@@ -26,8 +26,8 @@ To get started with this repository, follow these steps:
 1. **Clone the repository**:
 
     ```sh
-    git clone https://github.com/yourusername/rust-projects.git
-    cd rust-projects
+    git clone https://github.com/RichardTabaka/LearnRust.git
+    cd LearnRust
     ```
 
 2. **Build and run a project**:
