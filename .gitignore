@@ -1,0 +1,26 @@
+# Ignore target dir, used for compiled files w/ Rust
+/target
+
+# debug log file
+debug.log
+
+# VS Code settings dir
+.vscode/
+
+# backup files created by editors
+*.bak
+*.tmp
+
+# compiled dynamic libraries
+*.dylib
+*.so
+*.dll
+
+# executables
+*.exe
+*.out
+*.app
+
+# other temp files
+*.swp
+*.swo
