@@ -40,6 +40,11 @@ fn main() {
                     .collect();
 
                 match command {
+                    "cat" => {
+                        if let Err(e) = commands::cat(&args) {
+                            eprintln!("Error: {}", e);
+                        }
+                    },
                     "cd" => {
                         if let Err(e) = commands::cd(&args, &mut current_dir) {
                             eprintln!("Error: {}", e);
