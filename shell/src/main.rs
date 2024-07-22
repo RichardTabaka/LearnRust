@@ -1,4 +1,5 @@
 use rustyline::error::ReadlineError;
+use rustyline::history::DefaultHistory;
 use rustyline::Editor;
 use std::env;
 use std::path::PathBuf;
@@ -14,8 +15,8 @@ fn main() {
         .expect("Failed to set initial dir to home!");
 
     // Apparenly Rust's readline doesn't like backspaces
-    let mut rl = Editor::<()>::new()
-        .expect("Failed to create RustyLine :(");
+    let mut rl = Editor::<(), DefaultHistory>::new().unwrap();
+    rl.load_history("history.txt").ok();
 
     loop {
         let prompt = format!("{}> ", current_dir.display());
@@ -23,7 +24,7 @@ fn main() {
 
         match readline {
             Ok(line) => {
-                rl.add_history_entry(line.as_str());
+                let _ = rl.add_history_entry(line.as_str());
 
                 let input = line.trim();
                 if input.is_empty() {
