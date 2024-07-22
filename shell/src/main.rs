@@ -62,6 +62,11 @@ fn main() {
                             eprintln!("Error: {}", e);
                         }
                     },
+                    "grep" => {
+                        if let Err(e) = commands::grep(&args) {
+                            eprintln!("Error: {}", e);
+                        }
+                    },
                     "ls" => {
                         if let Err(e) = commands::ls(&args) {
                             eprintln!("Error: {}", e);
