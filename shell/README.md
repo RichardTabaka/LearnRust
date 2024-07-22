@@ -38,24 +38,35 @@ The shell should  be capable of interpreting and executing both built-in command
 
 - **`find`**: Searches for files and directories starting from the specified directory.
     ```sh
-    find .
+    /.../learn-rust/shell> find .
     ```
     Output (lists all files and directories recursively from the current directory):
     ```
-    ./file1.txt
-    ./file2.txt
-    ./directory1
-    ./directory1/file3.txt
+    /.../learn-rust/shell
+    ├── src/
+    │   ├── main.rs
+    │   └── commands/
+    │       ├── clear.rs
+    │       ├── echo.rs
+    │       ├── cd.rs
+    │       ├── mod.rs
+    │       ├── grep.rs
+    │       ├── find.rs
+    │       ├── ls.rs
+    │       └── cat.rs
+    ├── README.md
+    └── Cargo.toml
     ```
 
 - **`grep`**: Searches for lines that match a pattern in the specified files.
     ```sh
-    grep "pattern" filename.txt
+    /.../learn-rust/shell/src/commands> grep print find.rs
     ```
     Output (lines in `filename.txt` that contain "pattern"):
     ```
-    This is a line with pattern.
-    Another pattern is here.
+      -find.rs: line 13:     println!("{}", start_dir.display());
+      -find.rs: line 35:                 println!("{}{}/", new_prefix, file_name);
+      -find.rs: line 40:                     println!("{}{}", new_prefix, file_name);
     ```
 
 This project was also used to help me learn git, which has been a fun challenge and should explain the history/changesets.
